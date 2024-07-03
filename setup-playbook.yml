@@ -1,0 +1,35 @@
+---
+- name: Deploy portfolio to web servers
+  hosts: group1
+  become: yes
+  tasks:
+    - name: Ensure Nginx is installed
+      yum:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Start and enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Copy portfolio files
+      copy:
+        src: /home/ec2-user/portfolio/main/
+        dest: /var/www/html/
+        mode: '0755'
+
+    - name: Copy nginx server block conf files
+      copy:
+        src: /home/ec2-user/beaver-configs/portfolio.conf
+        dest: /etc/nginx/conf.d/portfolio.conf
+        mode: '0644'
+      notify: Restart Nginx
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
