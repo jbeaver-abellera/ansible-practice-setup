@@ -1,3 +1,4 @@
+
 # ansible-practice-setup
 
 This repository contains the playbook YAML file I created as practice on deploying an nginx web serer using Ansible. See below for steps on how I setup an EC2 instances for the controller and managed host, as well as how to setup and execute the playbook in the controller host.
